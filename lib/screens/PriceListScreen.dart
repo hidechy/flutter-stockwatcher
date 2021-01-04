@@ -4,16 +4,16 @@ import 'package:stockwatcher/utilities/utility.dart';
 import 'dart:convert';
 import 'package:http/http.dart';
 
-class CodeStockDisplayScreen extends StatefulWidget {
+class PriceListScreen extends StatefulWidget {
   final String code;
   final String date;
-  CodeStockDisplayScreen({@required this.code, @required this.date});
+  PriceListScreen({@required this.code, @required this.date});
 
   @override
-  _CodeStockDisplayScreenState createState() => _CodeStockDisplayScreenState();
+  _PriceListScreenState createState() => _PriceListScreenState();
 }
 
-class _CodeStockDisplayScreenState extends State<CodeStockDisplayScreen> {
+class _PriceListScreenState extends State<PriceListScreen> {
   Utility _utility = Utility();
 
   List<Map<dynamic, dynamic>> _priceData = List();
@@ -286,7 +286,7 @@ class _CodeStockDisplayScreenState extends State<CodeStockDisplayScreen> {
                 child: Text('${_ym[i]}'),
               )
             : GestureDetector(
-                onTap: () => _goCodeStockDisplayScreen(date: _ym[i]),
+                onTap: () => _goPriceListScreen(date: _ym[i]),
                 child: Container(
                   color: Colors.green[300],
                   margin: EdgeInsets.symmetric(vertical: 12, horizontal: 6),
@@ -332,11 +332,11 @@ class _CodeStockDisplayScreenState extends State<CodeStockDisplayScreen> {
   /**
    *
    */
-  void _goCodeStockDisplayScreen({String date}) {
+  void _goPriceListScreen({String date}) {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => CodeStockDisplayScreen(
+        builder: (context) => PriceListScreen(
           code: widget.code,
           date: date + '-01 00:00:00',
         ),

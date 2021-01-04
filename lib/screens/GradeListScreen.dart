@@ -4,18 +4,17 @@ import 'package:stockwatcher/utilities/utility.dart';
 import 'dart:convert';
 import 'package:http/http.dart';
 
-import 'CodeStockDisplayScreen.dart';
+import 'PriceListScreen.dart';
 
-class GradeStockDisplayScreen extends StatefulWidget {
+class GradeListScreen extends StatefulWidget {
   final String grade;
-  GradeStockDisplayScreen({@required this.grade});
+  GradeListScreen({@required this.grade});
 
   @override
-  _GradeStockDisplayScreenState createState() =>
-      _GradeStockDisplayScreenState();
+  _GradeListScreenState createState() => _GradeListScreenState();
 }
 
-class _GradeStockDisplayScreenState extends State<GradeStockDisplayScreen> {
+class _GradeListScreenState extends State<GradeListScreen> {
   Utility _utility = Utility();
 
   List<Map<dynamic, dynamic>> _gradeData = List();
@@ -124,7 +123,13 @@ class _GradeStockDisplayScreenState extends State<GradeStockDisplayScreen> {
   Widget _listItem({int position}) {
     var _codeLine = "";
     _codeLine += _gradeData[position]['code'] + "　";
-    _codeLine += _utility.makeCurrencyDisplay(_gradeData[position]['price']);
+
+    if (_gradeData[position]['price'] != "") {
+      _codeLine += _utility.makeCurrencyDisplay(_gradeData[position]['price']);
+    } else {
+      _codeLine += "";
+    }
+
     _codeLine += "（" + _gradeData[position]['tangen'] + "）　";
     _codeLine += _gradeData[position]['market'];
 
@@ -160,8 +165,7 @@ class _GradeStockDisplayScreenState extends State<GradeStockDisplayScreen> {
             ],
           ),
         ),
-        onTap: () =>
-            _goCodeStockDisplayScreen(code: _gradeData[position]['code']),
+        onTap: () => _goPriceListScreen(code: _gradeData[position]['code']),
       ),
     );
   }
@@ -192,11 +196,11 @@ class _GradeStockDisplayScreenState extends State<GradeStockDisplayScreen> {
   /**
    *
    */
-  void _goCodeStockDisplayScreen({String code}) {
+  void _goPriceListScreen({String code}) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => CodeStockDisplayScreen(
+        builder: (context) => PriceListScreen(
           code: code,
           date: DateTime.now().toString(),
         ),

@@ -5,8 +5,10 @@ import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart'
     show CalendarCarousel;
 import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:http/http.dart';
-import 'screens/DateStockDisplayScreen.dart';
-import 'screens/GradeStockDisplayScreen.dart';
+import 'package:stockwatcher/screens/DateListScreen.dart';
+import 'package:stockwatcher/screens/GradeListScreen.dart';
+import 'package:stockwatcher/screens/IndustryListScreen.dart';
+
 import 'utilities/utility.dart';
 
 class Calender extends StatefulWidget {
@@ -97,8 +99,25 @@ class _CalenderState extends State<Calender> {
                   ),
                 ),
               ),
-              Container(
-                height: 100,
+              Table(
+                children: [
+                  TableRow(
+                    children: [
+                      Align(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 8),
+                          child: RaisedButton(
+                            child: Text('Industry'),
+                            onPressed: () => _goIndustryListScreen(),
+                          ),
+                        ),
+                      ),
+                      Align(),
+                      Align(),
+                      Align(),
+                    ],
+                  ),
+                ],
               ),
               Container(
                 alignment: Alignment.topLeft,
@@ -115,7 +134,7 @@ class _CalenderState extends State<Calender> {
                       height: 100,
                       child: RaisedButton(
                         child: Text('A'),
-                        onPressed: () => _goGradeStockDisplayScreen(grade: 'A'),
+                        onPressed: () => _goGradeListScreen(grade: 'A'),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20.0),
                         ),
@@ -130,7 +149,7 @@ class _CalenderState extends State<Calender> {
                       height: 100,
                       child: RaisedButton(
                         child: Text('B'),
-                        onPressed: () => _goGradeStockDisplayScreen(grade: 'B'),
+                        onPressed: () => _goGradeListScreen(grade: 'B'),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20.0),
                         ),
@@ -145,7 +164,7 @@ class _CalenderState extends State<Calender> {
                       height: 100,
                       child: RaisedButton(
                         child: Text('C'),
-                        onPressed: () => _goGradeStockDisplayScreen(grade: 'C'),
+                        onPressed: () => _goGradeListScreen(grade: 'C'),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20.0),
                         ),
@@ -160,7 +179,7 @@ class _CalenderState extends State<Calender> {
                       height: 100,
                       child: RaisedButton(
                         child: Text('D'),
-                        onPressed: () => _goGradeStockDisplayScreen(grade: 'D'),
+                        onPressed: () => _goGradeListScreen(grade: 'D'),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20.0),
                         ),
@@ -175,7 +194,7 @@ class _CalenderState extends State<Calender> {
                       height: 100,
                       child: RaisedButton(
                         child: Text('E'),
-                        onPressed: () => _goGradeStockDisplayScreen(grade: 'E'),
+                        onPressed: () => _goGradeListScreen(grade: 'E'),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20.0),
                         ),
@@ -221,7 +240,7 @@ class _CalenderState extends State<Calender> {
 
         setState(() {});
       } else {
-        _goDateStockDisplayScreen(date: date.toString());
+        _goDateListScreen(date: date.toString());
       }
     }
     ////////////////////////////
@@ -232,11 +251,11 @@ class _CalenderState extends State<Calender> {
   /**
    * （画面遷移）_goDateStockDisplayScreen
    */
-  void _goDateStockDisplayScreen({String date}) {
+  void _goDateListScreen({String date}) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => DateStockDisplayScreen(date: date),
+        builder: (context) => DateListScreen(date: date),
       ),
     );
   }
@@ -244,11 +263,23 @@ class _CalenderState extends State<Calender> {
   /**
    * （画面遷移）_goGradeStockDisplayScreen
    */
-  void _goGradeStockDisplayScreen({String grade}) {
+  void _goGradeListScreen({String grade}) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => GradeStockDisplayScreen(grade: grade),
+        builder: (context) => GradeListScreen(grade: grade),
+      ),
+    );
+  }
+
+  /**
+   *
+   */
+  void _goIndustryListScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => IndustryListScreen(),
       ),
     );
   }

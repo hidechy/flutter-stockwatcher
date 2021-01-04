@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:stockwatcher/screens/PriceListScreen.dart';
 import 'package:stockwatcher/utilities/utility.dart';
 
 import 'dart:convert';
 import 'package:http/http.dart';
 
-import 'CodeStockDisplayScreen.dart';
-
-class DateStockDisplayScreen extends StatefulWidget {
+class DateListScreen extends StatefulWidget {
   final String date;
-  DateStockDisplayScreen({@required this.date});
+  DateListScreen({@required this.date});
 
   @override
-  _DateStockDisplayScreenState createState() => _DateStockDisplayScreenState();
+  _DateListScreenState createState() => _DateListScreenState();
 }
 
-class _DateStockDisplayScreenState extends State<DateStockDisplayScreen> {
+class _DateListScreenState extends State<DateListScreen> {
   Utility _utility = Utility();
 
   List<Map<dynamic, dynamic>> _dateHourData = List();
@@ -166,7 +165,14 @@ class _DateStockDisplayScreenState extends State<DateStockDisplayScreen> {
   Widget _listItem({int position}) {
     var _codeLine = "";
     _codeLine += _dateHourData[position]['code'] + "　";
-    _codeLine += _utility.makeCurrencyDisplay(_dateHourData[position]['price']);
+
+    if (_dateHourData[position]['price'] != "") {
+      _codeLine +=
+          _utility.makeCurrencyDisplay(_dateHourData[position]['price']);
+    } else {
+      _codeLine += "";
+    }
+
     _codeLine += "（" + _dateHourData[position]['tangen'] + "）　";
     _codeLine += _dateHourData[position]['market'];
 
@@ -200,8 +206,7 @@ class _DateStockDisplayScreenState extends State<DateStockDisplayScreen> {
             ],
           ),
         ),
-        onTap: () =>
-            _goCodeStockDisplayScreen(code: _dateHourData[position]['code']),
+        onTap: () => _goPriceListScreen(code: _dateHourData[position]['code']),
       ),
     );
   }
@@ -223,11 +228,11 @@ class _DateStockDisplayScreenState extends State<DateStockDisplayScreen> {
   /**
    *
    */
-  void _goCodeStockDisplayScreen({String code}) {
+  void _goPriceListScreen({String code}) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => CodeStockDisplayScreen(
+        builder: (context) => PriceListScreen(
           code: code,
           date: DateTime.now().toString(),
         ),
