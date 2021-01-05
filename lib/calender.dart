@@ -8,6 +8,7 @@ import 'package:http/http.dart';
 import 'package:stockwatcher/screens/DateListScreen.dart';
 import 'package:stockwatcher/screens/GradeListScreen.dart';
 import 'package:stockwatcher/screens/IndustryListScreen.dart';
+import 'package:stockwatcher/screens/PriceListScreen.dart';
 
 import 'utilities/utility.dart';
 
@@ -31,6 +32,8 @@ class _CalenderState extends State<Calender> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
+    var _btnHeight = 50.0;
 
     return new Scaffold(
       appBar: AppBar(
@@ -109,6 +112,7 @@ class _CalenderState extends State<Calender> {
                           child: RaisedButton(
                             child: Text('Industry'),
                             onPressed: () => _goIndustryListScreen(),
+                            color: Colors.brown.withOpacity(0.3),
                           ),
                         ),
                       ),
@@ -119,11 +123,38 @@ class _CalenderState extends State<Calender> {
                   ),
                 ],
               ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 5),
+                child: Table(
+                  children: [
+                    TableRow(
+                      children: [
+                        Align(
+                          child: RaisedButton(
+                            child: Text('～300'),
+                            onPressed: () => _goPriceListScreen(price: 300),
+                            color: Colors.yellowAccent.withOpacity(0.3),
+                          ),
+                        ),
+                        Align(
+                          child: RaisedButton(
+                            child: Text('～500'),
+                            onPressed: () => _goPriceListScreen(price: 500),
+                            color: Colors.yellowAccent.withOpacity(0.3),
+                          ),
+                        ),
+                        Align(),
+                        Align(),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
               Container(
                 alignment: Alignment.topLeft,
                 child: Text('Grade'),
                 color: Colors.green[900].withOpacity(0.5),
-                padding: EdgeInsets.only(top: 10, bottom: 10, left: 10),
+                padding: EdgeInsets.only(top: 5, bottom: 5, left: 10),
               ),
               Row(
                 children: <Widget>[
@@ -131,7 +162,7 @@ class _CalenderState extends State<Calender> {
                     width: size.width / 5,
                     child: Container(
                       margin: EdgeInsets.all(5),
-                      height: 100,
+                      height: _btnHeight,
                       child: RaisedButton(
                         child: Text('A'),
                         onPressed: () => _goGradeListScreen(grade: 'A'),
@@ -146,7 +177,7 @@ class _CalenderState extends State<Calender> {
                     width: size.width / 5,
                     child: Container(
                       margin: EdgeInsets.all(5),
-                      height: 100,
+                      height: _btnHeight,
                       child: RaisedButton(
                         child: Text('B'),
                         onPressed: () => _goGradeListScreen(grade: 'B'),
@@ -161,7 +192,7 @@ class _CalenderState extends State<Calender> {
                     width: size.width / 5,
                     child: Container(
                       margin: EdgeInsets.all(5),
-                      height: 100,
+                      height: _btnHeight,
                       child: RaisedButton(
                         child: Text('C'),
                         onPressed: () => _goGradeListScreen(grade: 'C'),
@@ -176,7 +207,7 @@ class _CalenderState extends State<Calender> {
                     width: size.width / 5,
                     child: Container(
                       margin: EdgeInsets.all(5),
-                      height: 100,
+                      height: _btnHeight,
                       child: RaisedButton(
                         child: Text('D'),
                         onPressed: () => _goGradeListScreen(grade: 'D'),
@@ -191,7 +222,7 @@ class _CalenderState extends State<Calender> {
                     width: size.width / 5,
                     child: Container(
                       margin: EdgeInsets.all(5),
-                      height: 100,
+                      height: _btnHeight,
                       child: RaisedButton(
                         child: Text('E'),
                         onPressed: () => _goGradeListScreen(grade: 'E'),
@@ -280,6 +311,20 @@ class _CalenderState extends State<Calender> {
       context,
       MaterialPageRoute(
         builder: (context) => IndustryListScreen(),
+      ),
+    );
+  }
+
+  /**
+   *
+   */
+  void _goPriceListScreen({price}) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PriceListScreen(
+          price: price,
+        ),
       ),
     );
   }

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:stockwatcher/screens/RecordListScreen.dart';
 import 'package:stockwatcher/utilities/utility.dart';
 
 import 'dart:convert';
 import 'package:http/http.dart';
-
-import 'PriceListScreen.dart';
 
 class IndustryDetailListScreen extends StatefulWidget {
   final String industry;
@@ -163,7 +162,7 @@ class _IndustryDetailListScreenState extends State<IndustryDetailListScreen> {
             ],
           ),
         ),
-        onTap: () => _goPriceListScreen(
+        onTap: () => _goRecordListScreen(
             code: _industryDetailData[position]['code'].toString()),
       ),
     );
@@ -186,11 +185,11 @@ class _IndustryDetailListScreenState extends State<IndustryDetailListScreen> {
   /**
    *
    */
-  void _goPriceListScreen({String code}) {
+  void _goRecordListScreen({String code}) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => PriceListScreen(
+        builder: (context) => RecordListScreen(
           code: code,
           date: DateTime.now().toString(),
         ),

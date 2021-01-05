@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:stockwatcher/screens/PriceListScreen.dart';
 import 'package:stockwatcher/utilities/utility.dart';
 
 import 'dart:convert';
 import 'package:http/http.dart';
+
+import 'RecordListScreen.dart';
 
 class DateListScreen extends StatefulWidget {
   final String date;
@@ -206,7 +207,7 @@ class _DateListScreenState extends State<DateListScreen> {
             ],
           ),
         ),
-        onTap: () => _goPriceListScreen(code: _dateHourData[position]['code']),
+        onTap: () => _goRecordListScreen(code: _dateHourData[position]['code']),
       ),
     );
   }
@@ -228,11 +229,11 @@ class _DateListScreenState extends State<DateListScreen> {
   /**
    *
    */
-  void _goPriceListScreen({String code}) {
+  void _goRecordListScreen({String code}) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => PriceListScreen(
+        builder: (context) => RecordListScreen(
           code: code,
           date: DateTime.now().toString(),
         ),

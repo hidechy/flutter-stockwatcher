@@ -4,21 +4,24 @@ import 'package:stockwatcher/utilities/utility.dart';
 import 'dart:convert';
 import 'package:http/http.dart';
 
-import 'RecordListScreen.dart';
-
-class PriceListScreen extends StatefulWidget {
-  final int price;
-
-  PriceListScreen({@required this.price});
+class RecordAllListScreen extends StatefulWidget {
+  final String code;
+  RecordAllListScreen({@required this.code});
 
   @override
-  _PriceListScreenState createState() => _PriceListScreenState();
+  _RecordAllListScreenState createState() => _RecordAllListScreenState();
 }
 
-class _PriceListScreenState extends State<PriceListScreen> {
+class _RecordAllListScreenState extends State<RecordAllListScreen> {
   Utility _utility = Utility();
 
   List<Map<dynamic, dynamic>> _priceData = List();
+
+  String market;
+  String company;
+  String industry;
+  String tangen;
+  String grade;
 
   /**
    * 初期動作
@@ -34,29 +37,28 @@ class _PriceListScreenState extends State<PriceListScreen> {
    * 初期データ作成
    */
   void _makeDefaultDisplayData() async {
-    String url = "http://toyohide.work/BrainLog/api/stockpricedata";
+    ////////////////////////////
+    String url = "http://toyohide.work/BrainLog/api/stockalldata";
     Map<String, String> headers = {'content-type': 'application/json'};
-    String body = json.encode({"price": widget.price});
+    String body = json.encode({"code": widget.code});
     Response response = await post(url, headers: headers, body: body);
 
     if (response != null) {
       Map data = jsonDecode(response.body);
 
-      for (var i = 0; i < data['data'].length; i++) {
+      market = data['data']['market'];
+      company = data['data']['company'];
+      industry = data['data']['industry'];
+      tangen = data['data']['tangen'];
+      grade = data['data']['grade'];
+
+      for (var i = 0; i < data['data']['price'].length; i++) {
         var _map = Map();
 
-        var ex_value = (data['data'][i]).split('|');
-
-        _map['code'] = ex_value[0];
-        _map['market'] = ex_value[1];
-        _map['company'] = ex_value[2];
-        _map['price'] = ex_value[3];
-        _map['grade'] = ex_value[4];
-        _map['industry'] = ex_value[5];
-        _map['tangen'] = ex_value[6];
-        _map['isCountOverTwo'] = ex_value[7];
-        _map['isUpper'] = ex_value[8];
-        _map['created_at'] = ex_value[9];
+        var ex_value = (data['data']['price'][i]).split('|');
+        _map['date'] = ex_value[0];
+        _map['price'] = ex_value[1];
+        _map['isUpper'] = ex_value[2];
 
         _priceData.add(_map);
       }
@@ -73,7 +75,7 @@ class _PriceListScreenState extends State<PriceListScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black.withOpacity(0.6),
-        title: Text("～${widget.price}"),
+        title: Text("all record"),
         centerTitle: true,
 
         //-------------------------//これを消すと「←」が出てくる（消さない）
@@ -97,7 +99,27 @@ class _PriceListScreenState extends State<PriceListScreen> {
           _utility.getBackGround(),
           Container(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+                ListTile(
+                  leading: Text(
+                    '${grade}',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  title: DefaultTextStyle(
+                    style: TextStyle(fontSize: 14),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text('${company}'),
+                        Text('${widget.code}'),
+                        Text('${industry}'),
+                        Text('${tangen}'),
+                        Text('${market}')
+                      ],
+                    ),
+                  ),
+                ),
                 Expanded(
                   child: _priceList(),
                 ),
@@ -122,17 +144,7 @@ class _PriceListScreenState extends State<PriceListScreen> {
   /**
    *
    */
-  _listItem({int position}) {
-    var _codeLine = "";
-    _codeLine += _priceData[position]['code'] + "　";
-    _codeLine += _priceData[position]['industry'] + "　";
-    _codeLine += _priceData[position]['market'];
-
-    var _priceLine = "";
-    _priceLine += _priceData[position]['price'];
-    _priceLine += "（" + _priceData[position]['tangen'] + "）　";
-    _priceLine += _priceData[position]['price'];
-
+  Widget _listItem({int position}) {
     return Card(
       color: Colors.black.withOpacity(0.3),
       elevation: 10.0,
@@ -149,34 +161,12 @@ class _PriceListScreenState extends State<PriceListScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text('${_priceData[position]['company']}'),
-              SizedBox(
-                height: 10,
-              ),
-              Text('${_codeLine}'),
-              SizedBox(
-                height: 10,
-              ),
-              Text('${_priceLine}'),
+              Text(
+                  '${_priceData[position]['date']}　${_priceData[position]['price']}'),
             ],
           ),
         ),
-        onTap: () => _goRecordListScreen(code: _priceData[position]['code']),
-      ),
-    );
-  }
-
-  /**
-   *
-   */
-  void _goRecordListScreen({String code}) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => RecordListScreen(
-          code: code,
-          date: DateTime.now().toString(),
-        ),
+//        onTap: () => _goRecordListScreen(code: _priceData[position]['code']),
       ),
     );
   }

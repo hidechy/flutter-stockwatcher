@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:stockwatcher/screens/RecordListScreen.dart';
 import 'package:stockwatcher/utilities/utility.dart';
 
 import 'dart:convert';
 import 'package:http/http.dart';
-
-import 'PriceListScreen.dart';
 
 class GradeListScreen extends StatefulWidget {
   final String grade;
@@ -165,7 +164,7 @@ class _GradeListScreenState extends State<GradeListScreen> {
             ],
           ),
         ),
-        onTap: () => _goPriceListScreen(code: _gradeData[position]['code']),
+        onTap: () => _goRecordListScreen(code: _gradeData[position]['code']),
       ),
     );
   }
@@ -196,11 +195,11 @@ class _GradeListScreenState extends State<GradeListScreen> {
   /**
    *
    */
-  void _goPriceListScreen({String code}) {
+  void _goRecordListScreen({String code}) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => PriceListScreen(
+        builder: (context) => RecordListScreen(
           code: code,
           date: DateTime.now().toString(),
         ),
