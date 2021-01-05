@@ -4,6 +4,8 @@ import 'package:stockwatcher/utilities/utility.dart';
 import 'dart:convert';
 import 'package:http/http.dart';
 
+import 'package:url_launcher/url_launcher.dart';
+
 import 'RecordAllListScreen.dart';
 
 class RecordListScreen extends StatefulWidget {
@@ -162,9 +164,17 @@ class _RecordListScreenState extends State<RecordListScreen> {
                 //--------------------//
 
                 Container(
-                  child: IconButton(
-                    icon: Icon(Icons.all_inclusive),
-                    onPressed: () => _goRecordAllListScreen(),
+                  child: Row(
+                    children: <Widget>[
+                      IconButton(
+                        icon: Icon(Icons.all_inclusive),
+                        onPressed: () => _goRecordAllListScreen(),
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.link),
+                        onPressed: () => _openBrowsing(),
+                      ),
+                    ],
                   ),
                 ),
 
@@ -367,5 +377,18 @@ class _RecordListScreenState extends State<RecordListScreen> {
         ),
       ),
     );
+  }
+
+  /**
+   *
+   */
+  void _openBrowsing() async {
+    var url =
+        "https://stocks.finance.yahoo.co.jp/stocks/detail/?code=${widget.code}";
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }
