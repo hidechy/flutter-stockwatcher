@@ -117,9 +117,11 @@ class _IndustryDetailListScreenState extends State<IndustryDetailListScreen> {
     _codeLine += _industryDetailData[position]['code'].toString() + "　";
 
     if (_industryDetailData[position]['price'] != "") {
-      _codeLine +=
-          _utility.makeCurrencyDisplay(_industryDetailData[position]['price']);
-    } else {}
+      _codeLine += _utility.makeCurrencyDisplay(
+          _industryDetailData[position]['price'].toString());
+    } else {
+      _codeLine += "---";
+    }
 
     _codeLine += "（" + _industryDetailData[position]['tangen'] + "）　";
     _codeLine += _industryDetailData[position]['market'];

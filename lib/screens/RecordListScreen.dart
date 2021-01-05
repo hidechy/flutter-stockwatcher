@@ -29,6 +29,7 @@ class _RecordListScreenState extends State<RecordListScreen> {
   String isCountOverTwo;
   String isUpper;
   String grade;
+  String lastPrice;
 
   String _yearmonth;
 
@@ -69,6 +70,7 @@ class _RecordListScreenState extends State<RecordListScreen> {
       isCountOverTwo = data['data']['isCountOverTwo'];
       isUpper = data['data']['isUpper'];
       grade = data['data']['grade'];
+      lastPrice = data['data']['lastPrice'].toString();
 
       for (var i = 0; i < data['data']['price'].length; i++) {
         var _map = Map();
@@ -148,7 +150,7 @@ class _RecordListScreenState extends State<RecordListScreen> {
                         Text('${company}'),
                         Text('${widget.code}'),
                         Text('${industry}'),
-                        Text('${tangen}'),
+                        Text('${lastPrice}（${tangen}）'),
                         Text('${market}')
                       ],
                     ),

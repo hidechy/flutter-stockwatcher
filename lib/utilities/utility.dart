@@ -9,7 +9,7 @@ class Utility {
     return Image.asset(
       'assets/image/bg.jpg',
       fit: BoxFit.cover,
-      color: Colors.black.withOpacity(0.9),
+      color: Colors.black.withOpacity(0.6),
       colorBlendMode: BlendMode.darken,
     );
   }
